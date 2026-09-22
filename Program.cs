@@ -151,7 +151,7 @@ namespace PatientRegistration
             int loyal = Loyal();
             RGB skinColor = InputSkinColor();
 
-            return new Patient(passport, name, birthDate, phone, temperature, loyal, skin_color);
+            return new Patient(passport, name, birthDate, phone, temperature, loyal, skinColor);
         }
 
         static string InputPassport()

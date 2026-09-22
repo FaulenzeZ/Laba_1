@@ -21,6 +21,25 @@ namespace PatientRegistration
         }
     }
 
+    struct RGB
+    {
+        public int r;
+        public int g;
+        public int b;
+
+        public RGB(int r, int g, int b)
+        {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+        }
+        public override string ToString()
+        {
+            return $"RGB({r}, {g}, {b}";
+        }
+    }
+
+
     class Patient
     {
         public string passport;
@@ -29,8 +48,9 @@ namespace PatientRegistration
         public string phone;
         public double temperature;
         public int loyal;
+        public RGB skin_color;
 
-        public Patient(string passport, string name, Date birth_date, string phone, double temperature, int loyal)
+        public Patient(string passport, string name, Date birth_date, string phone, double temperature, int loyal, RGB skin_color)
         {
             this.passport = passport;
             this.name = name;
@@ -38,6 +58,8 @@ namespace PatientRegistration
             this.phone = phone;
             this.temperature = temperature;
             this.loyal = loyal;
+            this.skin_color = skin_color;
+
         }
 
         public override string ToString()
@@ -47,7 +69,8 @@ namespace PatientRegistration
                    $"Дата рождения: {birth_date.yyyy:0000}-{birth_date.mm:00}-{birth_date.dd:00}\n" +
                    $"Телефон: {phone}\n" +
                    $"Температура: {temperature:F2}\n" +
-                   $"Лояльность: {loyal}";
+                   $"Лояльность: {loyal}\n" +
+                   $"Цвет кожи : {skin_color}";
         }
     }
 
@@ -97,7 +120,7 @@ namespace PatientRegistration
             {
                 foreach (Patient p in patients)
                 {
-                    sw.WriteLine($"{p.passport};{p.name};{p.birth_date.dd};{p.birth_date.mm};{p.birth_date.yyyy};{p.phone};{p.temperature}; {p.loyal}");
+                    sw.WriteLine($"{p.passport};{p.name};{p.birth_date.dd};{p.birth_date.mm};{p.birth_date.yyyy};{p.phone};{p.temperature}; {p.loyal}; {p.skin_color}");
                 }
             }
         }
@@ -126,8 +149,9 @@ namespace PatientRegistration
             string phone = InputPhone();
             double temperature = InputTemperature();
             int loyal = Loyal();
+            RGB skinColor = InputSkinColor();
 
-            return new Patient(passport, name, birthDate, phone, temperature, loyal);
+            return new Patient(passport, name, birthDate, phone, temperature, loyal, skin_color);
         }
 
         static string InputPassport()
@@ -218,6 +242,45 @@ namespace PatientRegistration
             } while (!isValid);
 
             return birthDate;
+        }
+
+        static RGB InputSkinColor()
+        {
+            string pattern = @"^(\d{1,3})\s*[,;\s]\s*(\d{1,3})\s*[,;\s]\s*(\d{1,3})$";
+            string input;
+            bool isValid;
+            RGB color = new RGB();
+
+            do
+            {
+                Console.Write("Введите цвет кожи в формате RGB (например: 255, 220, 180): ");
+                input = Console.ReadLine()?.Trim() ?? "";
+                isValid = Regex.IsMatch(input, pattern);
+
+                if (isValid)
+                {
+                    Match match = Regex.Match(input, pattern);
+                    int r = int.Parse(match.Groups[1].Value);
+                    int g = int.Parse(match.Groups[2].Value);
+                    int b = int.Parse(match.Groups[3].Value);
+
+                    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+                    {
+                        isValid = false;
+                        Console.WriteLine("Ошибка! Каждое значение RGB должно быть в диапазоне 0-255");
+                    }
+                    else
+                    {
+                        color = new RGB(r, g, b);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка! Введите три числа через запятую, точку с запятой или пробел (например: 255, 220, 180)");
+                }
+            } while (!isValid);
+
+            return color;
         }
 
         static string InputPhone()

@@ -243,46 +243,6 @@ namespace PatientRegistration
 
             return birthDate;
         }
-
-        static RGB InputSkinColor()
-        {
-            string pattern = @"^(\d{1,3})\s*[,;\s]\s*(\d{1,3})\s*[,;\s]\s*(\d{1,3})$";
-            string input;
-            bool isValid;
-            RGB color = new RGB();
-
-            do
-            {
-                Console.Write("Введите цвет кожи в формате RGB (например: 255, 220, 180): ");
-                input = Console.ReadLine()?.Trim() ?? "";
-                isValid = Regex.IsMatch(input, pattern);
-
-                if (isValid)
-                {
-                    Match match = Regex.Match(input, pattern);
-                    int r = int.Parse(match.Groups[1].Value);
-                    int g = int.Parse(match.Groups[2].Value);
-                    int b = int.Parse(match.Groups[3].Value);
-
-                    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-                    {
-                        isValid = false;
-                        Console.WriteLine("Ошибка! Каждое значение RGB должно быть в диапазоне 0-255");
-                    }
-                    else
-                    {
-                        color = new RGB(r, g, b);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Ошибка! Введите три числа через запятую, точку с запятой или пробел (например: 255, 220, 180)");
-                }
-            } while (!isValid);
-
-            return color;
-        }
-
         static string InputPhone()
         {
             string pattern1 = @"^\+\d\(\d{3}\)\s\d{3}-\d{2}-\d{2}$";
@@ -353,6 +313,45 @@ namespace PatientRegistration
             } while (!isValid);
 
             return temperature;
+        }
+
+        static RGB InputSkinColor()
+        {
+            string pattern = @"^(\d{1,3})\s*[,;\s]\s*(\d{1,3})\s*[,;\s]\s*(\d{1,3})$";
+            string input;
+            bool isValid;
+            RGB color = new RGB();
+
+            do
+            {
+                Console.Write("Введите цвет кожи в формате RGB (например: 255, 220, 180): ");
+                input = Console.ReadLine()?.Trim() ?? "";
+                isValid = Regex.IsMatch(input, pattern);
+
+                if (isValid)
+                {
+                    Match match = Regex.Match(input, pattern);
+                    int r = int.Parse(match.Groups[1].Value);
+                    int g = int.Parse(match.Groups[2].Value);
+                    int b = int.Parse(match.Groups[3].Value);
+
+                    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+                    {
+                        isValid = false;
+                        Console.WriteLine("Ошибка! Каждое значение RGB должно быть в диапазоне 0-255");
+                    }
+                    else
+                    {
+                        color = new RGB(r, g, b);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка! Введите три числа через запятую, точку с запятой или пробел (например: 255, 220, 180)");
+                }
+            } while (!isValid);
+
+            return color;
         }
     }
 }

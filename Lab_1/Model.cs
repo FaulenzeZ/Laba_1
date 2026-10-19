@@ -11,13 +11,16 @@ namespace Lab_1
         public string Number { get; set; }
         public string Region { get; set; }
 
-        public CarPass()
+        public CarPass() { }
+
+        public CarPass(string data, string number)
         {
-            
+            Data = data;
+            Number = number;
         }
         public void TwoIndex(string data,  string fullNumber)
         {
-            Console.WriteLine($"Дата: {data} Номер_Регион: {fullNumber}");
+            Console.WriteLine($"Дата: {Data} Номер_Регион: {Number}");
         }
         public void ThreeIndex(string data, string fullNumber, string region)
         {

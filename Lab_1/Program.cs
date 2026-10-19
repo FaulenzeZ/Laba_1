@@ -4,30 +4,36 @@
     {
         static void Main()
         {
-            Console.WriteLine("Введите дату и номер автомобиля, например, дату в формате: гггг.мм.дд номер в формаете: \"А000АА000\"");
-            string[] input = Console.ReadLine().Split(" ");
-            string index;
+            Console.WriteLine("Введите данные (Дата Номер [Регион]):");
+            Console.WriteLine("Пример 1: 2024.05.15 А123ВС77");
+            Console.WriteLine("Пример 2: 2024.05.15 А123ВС 77");
+
+            string inputLine = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(inputLine)) return; 
+
+            string[] input = inputLine.Split(" ");
+
             for (int i = 0; i < input.Length; i++)
             {
                 input[i] = input[i].Trim();
             }
             CarPass carPass = new CarPass();
-            string data = input[0];
-            string number = input[1];
-            
+
             if (input.Length == 2)
             {
-                carPass.TwoIndex(data, number);
+                carPass.TwoIndex(input[0], input[1]);
             }
             else if (input.Length == 3)
             {
-                string region = input[2];
-                carPass.ThreeIndex(data, number, region);
+                carPass.ThreeIndex(input[0], input[1], input[2]);
             }
             else
             {
                 Console.WriteLine("Неверное кол-во аргументов. Ожидалось 2 или 3!");
             }
+            Console.WriteLine(carPass.Data);
+            Console.WriteLine(carPass.Number);
+            Console.WriteLine(carPass.Region);
 
         }
     }
